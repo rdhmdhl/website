@@ -10,18 +10,18 @@ function main({ context }) {
   const QAColumn = "QA"
 
   const hardLabels = [
-    "Feature: Refactor CSS",
-    "Feature: Refactor HTML",
-    "Feature: Refactor JS / Liquid",
-    "Feature: Refactor GHA",
+    "⭐ Feature: Refactor CSS",
+    "🌟 Feature: Refactor HTML",
+    "💫 Feature: Refactor JS / Liquid",
+    "✨ Feature: Refactor GHA",
   ];
 
   const softLabels = [
-    "role: back end/devOps",
-    "Feature: Analytics",
+    "😄 role: back end/devOps",
+    "😆 Feature: Analytics",
   ];
 
-  const overrideSoftLabels = ["role: front end"]
+  const overrideSoftLabels = ["💖 role: front end"]
 
   const issueLabels = obtainLabels(context);
 
