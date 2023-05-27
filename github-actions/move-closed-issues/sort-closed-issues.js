@@ -36,6 +36,9 @@ function main({ context }) {
   console.log(`Contains soft label: ${issueLabels.some(isSoftLabel)}`); // log whether a soft label is present
   console.log(`Contains override label: ${issueLabels.some(isOverrideLabel)}`); // log whether an override label is present
 
+  console.log("Issue labels:", issueLabels);
+
+
   /** If issue includes hard labels there should be no visual changes - move to the Done column */
   if (issueLabels.some(isHardLabel)) {
     return doneColumn;
