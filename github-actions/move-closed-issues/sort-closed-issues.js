@@ -32,6 +32,10 @@ function main({ context }) {
   // checks if label is an override label
   const isOverrideLabel = label => overrideSoftLabels.includes(label);
 
+  console.log(`Contains hard label: ${issueLabels.some(isHardLabel)}`); // log whether a hard label is present
+  console.log(`Contains soft label: ${issueLabels.some(isSoftLabel)}`); // log whether a soft label is present
+  console.log(`Contains override label: ${issueLabels.some(isOverrideLabel)}`); // log whether an override label is present
+
   /** If issue includes hard labels there should be no visual changes - move to the Done column */
   if (issueLabels.some(isHardLabel)) {
     return doneColumn;
@@ -50,5 +54,6 @@ function main({ context }) {
   // all other issues go to QA column
   return QAColumn;
 }
+
 
 module.exports = main;
