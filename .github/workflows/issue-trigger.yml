@@ -2,6 +2,8 @@ name: Issue Trigger
 on:
   issues:
     types: [opened, transferred, assigned, edited, reopened]
+  issue_comment: 
+    types: [created, edited]
 
 jobs:
   Add-Missing-Labels-To-Issues:
@@ -73,3 +75,11 @@ jobs:
             const script = require('./github-actions/trigger-issue/add-preliminary-comment/preliminary-update-comment.js')
             script({g: github, c:context},results)
 
+Handle-Comment-Event:
+    runs-on: ubuntu-latest
+    # Triggers when a comment is added or edited
+    if: ${{ github.event_name == 'issue_comment' }}
+    steps:
+      - uses: actions/checkout@v2  
+      - name: Handle comment event 
+      run: echo "${{ toJson(github.event) }}"
