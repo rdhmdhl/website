@@ -1,9 +1,7 @@
 name: Issue Trigger
 on:
   issues:
-    types: [opened, transferred, assigned, edited, reopened]
-  issue_comment: 
-    types: [created, edited]
+    types: [opened, transferred, assigned]
 
 jobs:
   Add-Missing-Labels-To-Issues:
@@ -17,8 +15,6 @@ jobs:
         uses: actions/github-script@v4
         id: check-labels
         with:
-        # ADDING TOKEN HERE FOR TESTING PURPOSES ONLY
-          github-token: ${{ secrets.HACKFORLA_BOT_PA_TOKEN }}
           script: |
             const script = require('./github-actions/trigger-issue/add-missing-labels-to-issues/check-labels.js')
             const checkLabels = script({g: github, c: context})
@@ -31,16 +27,15 @@ jobs:
           username: ${{ github.actor }}
           organization: 'hackforla'
           team: 'website-write'
-          GITHUB_TOKEN: ${{ secrets.HACKFORLA_BOT_PA_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TEAMS }}
           
-      # Checks if user is on the website-write-team.
+      # Checks if user is on the website-write-team
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
       # Post comment based on the previous action's results
         name: Post Comment
         uses: actions/github-script@v4
         id: post-comment
         with:
-          github-token: ${{ secrets.HACKFORLA_BOT_PA_TOKEN }}
           script: |
             const results = ${{ steps.check-labels.outputs.result }}
             const script = require('./github-actions/trigger-issue/add-missing-labels-to-issues/post-labels-comment.js')
@@ -65,7 +60,7 @@ jobs:
             return checklabels
 
 
-      # Post the comment based on the result of the previous step
+      # Post the comment based on the result of the previous step.
       - name: Post assigning issue comment
         id: assigned-comment
         uses: actions/github-script@v4
@@ -74,12 +69,3 @@ jobs:
             const results = ${{ steps.check-labels-prelim.outputs.result }}
             const script = require('./github-actions/trigger-issue/add-preliminary-comment/preliminary-update-comment.js')
             script({g: github, c:context},results)
-
-  Handle-Comment-Event:
-      runs-on: ubuntu-latest
-      # Triggers when a comment is added or edited
-      if: ${{ github.event_name == 'issue_comment' }}
-      steps:
-        - uses: actions/checkout@v2  
-        - name: Handle comment event 
-          run: echo "${{ toJson(github.event) }}"
