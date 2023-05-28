@@ -52,12 +52,12 @@ async function main({ g, c }, columnId) {
     // TESTING PURPOSES ONLY
     if (responseObject.result === true && responseObject.labels === justUpdatedLabel) {
       // just commented by assignee, add 'this issue was just updated' label
-      console.log(`Running test now for updating comment now for issue #${issueNum}`);
+      console.log(`TEST Running test now for updating comment now for issue #${issueNum}`);
       await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);
       await addLabels(issueNum, responseObject.labels);
       await postComment(issueNum, assignees, justUpdatedLabel);
     }
-
+    console.log('curernt responseobject after test condition: ', responseObject);
 
     if (responseObject.result === true && responseObject.labels === toUpdateLabel) { // 7-day outdated, add 'To Update !' label
       console.log(`Going to ask for an update now for issue #${issueNum}`);
