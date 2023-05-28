@@ -31,7 +31,7 @@ jobs:
           team: 'website-write'
           GITHUB_TOKEN: ${{ secrets.HACKFORLA_BOT_PA_TOKEN }}
           
-      # Checks if user is on the website-write-team
+      # Checks if user is on the website-write-team.
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
       # Post comment based on the previous action's results
         name: Post Comment
