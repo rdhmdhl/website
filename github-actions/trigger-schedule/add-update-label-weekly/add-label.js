@@ -4,7 +4,7 @@ var fs = require("fs");
 // Global variables
 var github;
 var context;
-const justUpdatedLabel = "this issue was just updated"  
+const justUpdatedLabel = "⭐ this issue was just updated"  
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
