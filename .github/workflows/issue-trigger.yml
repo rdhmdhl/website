@@ -16,7 +16,7 @@ jobs:
         id: check-labels
         with:
         # ADDING TOKEN HERE FOR TESTING PURPOSES ONLY
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.HACKFORLA_BOT_PA_TOKEN }}
           script: |
             const script = require('./github-actions/trigger-issue/add-missing-labels-to-issues/check-labels.js')
             const checkLabels = script({g: github, c: context})
