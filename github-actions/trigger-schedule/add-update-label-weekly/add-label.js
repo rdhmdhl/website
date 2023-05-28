@@ -4,12 +4,17 @@ var fs = require("fs");
 // Global variables
 var github;
 var context;
+const justUpdatedLabel = "this issue was just updated"  
 const statusUpdatedLabel = 'Status: Updated';
 const toUpdateLabel = 'To Update !';
 const inactiveLabel = '2 weeks inactive';
 const updatedByDays = 3; // If there is an update within 3 days, the issue is considered updated
 const inactiveUpdatedByDays = 14; // If no update within 14 days, the issue is considered '2 weeks inactive'
 const commentByDays = 7; // If there is an update within 14 days but no update within 7 days, the issue is considered outdated and the assignee needs 'To Update !' it
+
+// TESTING PURPOSES ONLY
+const nowCuttoffTime = new Date.now().toISOString();
+
 const threeDayCutoffTime = new Date()
 threeDayCutoffTime.setDate(threeDayCutoffTime.getDate() - updatedByDays)
 const sevenDayCutoffTime = new Date()
@@ -43,6 +48,15 @@ async function main({ g, c }, columnId) {
 
     // Add and remove labels as well as post comment if the issue's timeline indicates the issue is inactive, to be updated or up to date accordingly
     const responseObject = await isTimelineOutdated(timeline, issueNum, assignees)
+
+    // TESTING PURPOSES ONLY
+    if (responseObject.result === true && responseObject.labels === justUpdatedLabel) {
+      // just commented by assignee, add 'this issue was just updated' label
+      console.log(`Running test now for updating comment now for issue #${issueNum}`);
+      await removeLabels(issueNum, statusUpdatedLabel, inactiveLabel);
+      await addLabels(issueNum, responseObject.labels);
+      await postComment(issueNum, assignees, justUpdatedLabel);
+    }
 
 
     if (responseObject.result === true && responseObject.labels === toUpdateLabel) { // 7-day outdated, add 'To Update !' label
@@ -163,6 +177,13 @@ function isTimelineOutdated(timeline, issueNum, assignees) { // assignees is an 
     else if (!lastAssignedTimestamp && eventType === 'assigned' && assignees.includes(eventObj.assignee.login)) {
       lastAssignedTimestamp = eventTimestamp;
     }
+  }
+
+  // TESTING PURPOSES ONLY
+  if (lastCommentTimestamp <= nowCuttoffTime) {
+    // if commented by assignee now
+    console.log(`Issue #${issueNum} commented by just now, retain 'Status: Updated' label`);
+    return { result: true, labels: justUpdatedLabel} // add the just updated label, created for test purposes
   }
 
   if (lastCommentTimestamp && isMomentRecent(lastCommentTimestamp, threeDayCutoffTime)) { // if commented by assignee within 3 days
