@@ -13,7 +13,7 @@ const inactiveUpdatedByDays = 14; // If no update within 14 days, the issue is c
 const commentByDays = 7; // If there is an update within 14 days but no update within 7 days, the issue is considered outdated and the assignee needs 'To Update !' it
 
 // TESTING PURPOSES ONLY
-const nowCuttoffTime = new Date.now().toISOString();
+const nowCuttoffTime = new Date(Date.now()).toISOString();
 
 const threeDayCutoffTime = new Date()
 threeDayCutoffTime.setDate(threeDayCutoffTime.getDate() - updatedByDays)
