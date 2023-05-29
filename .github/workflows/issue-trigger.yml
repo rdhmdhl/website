@@ -37,6 +37,7 @@ jobs:
         uses: actions/github-script@v4
         id: post-comment
         with:
+          github-token: ${{ secrets.HACKFORLA_BOT_PA_TOKEN }}
           script: |
             const results = ${{ steps.check-labels.outputs.result }}
             const script = require('./github-actions/trigger-issue/add-missing-labels-to-issues/post-labels-comment.js')
